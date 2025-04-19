@@ -1,29 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading;
-using Coverd.Common.Enums;
-using Databases;
 using NLog;
 using ThreadPoolWebApi.Models;
 using TransactionHandler.Interfaces;
 
-namespace ThreadPoolWebApi.Controllers
+namespace CoverdWebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class TransactionController : ControllerBase
     {
-        private readonly IDatabase Database;
         public readonly ITransactionHandler TransactionHandler;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         
-        public TransactionController(IDatabase database, ITransactionHandler transactionHandler)
+        public TransactionController(ITransactionHandler transactionHandler)
         {
-            this.Database = database;
             this.TransactionHandler = transactionHandler;
         }
         
-        [HttpPost]
+        [HttpPost("addTransaction")]
         public IActionResult PostCreditCardTransaction([FromBody] CreditCardTransactionModel? transaction)
         {
             if (transaction == null)
@@ -31,21 +25,23 @@ namespace ThreadPoolWebApi.Controllers
                 return BadRequest("Invalid request body");
             }
             
+            bool success = false;
             ThreadPool.QueueUserWorkItem(_ =>
             {
-                DoCreditCardTransactionWork(transaction);
+                success = DoCreditCardTransactionWork(transaction);
             });
 
-            return Accepted("Transaction is being processed.");
+            return success ? Ok("Transaction is being processed.") : Ok("Transaction was not processed.");
         }
 
-        private void DoCreditCardTransactionWork(CreditCardTransactionModel model)
+        private bool DoCreditCardTransactionWork(CreditCardTransactionModel model)
         {
             
             bool success = TransactionHandler.DoTransaction(model.UserId, model.TransactionAmount, 
                 model.TransactionDateTimeUtc, model.TransactionId, model.MerchantName, model.CreditCardNumber);
             string action = success ? "Processed" : "Failed";
             logger.Info($"{action} transaction for {model.UserId}, amount: {model.TransactionAmount}");
+            return success;
         }
     }
 }

@@ -20,8 +20,8 @@ namespace CoverdWebApi
             
             services.AddControllers()
                 .AddApplicationPart(typeof(PingController).Assembly)
-                .AddApplicationPart(typeof(BlackjackController).Assembly); // Enable attribute-based controllers
-            services.AddSingleton<IDatabase, Database>(); // Ensure your DB setup
+                .AddApplicationPart(typeof(BlackjackController).Assembly); 
+            services.AddSingleton<IDatabase, Database>(); 
             services.AddSingleton<ITransactionHandler, TransactionHandler.TransactionHandler>();
             
             foreach (var svc in services)
@@ -49,7 +49,7 @@ namespace CoverdWebApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers(); // Map attribute-routed controllers
+                endpoints.MapControllers();
             });
         }
     }

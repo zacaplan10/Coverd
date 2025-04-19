@@ -35,6 +35,9 @@ public class BlackjackGame
         UserId = userId;
     }
 
+    /// <summary>
+    /// Start new round of blackjack by checking balance is sufficient, shuffling and dealing cards 
+    /// </summary>
     public bool StartNewRound(decimal bet)
     {
         if (Player.Balance < bet)
@@ -62,6 +65,9 @@ public class BlackjackGame
         return true;
     }
 
+    /// <summary>
+    /// Player hit actions
+    /// </summary>
     public void PlayerHit()
     {
         if (RoundOver) return;
@@ -83,6 +89,9 @@ public class BlackjackGame
         }
     }
 
+    /// <summary>
+    /// Player stand actions
+    /// </summary>
     public void PlayerStand()
     {
         if (RoundOver)
@@ -99,6 +108,10 @@ public class BlackjackGame
         EndRound(result);
     }
 
+    /// <summary>
+    /// Handle any outstanding actions when player stands
+    /// </summary>
+    /// <returns></returns>
     private GameResultEnum ResolveGame()
     {
         int playerTotal = Player.HandValue;
@@ -122,6 +135,11 @@ public class BlackjackGame
         return LastGameResult;
     }
 
+    /// <summary>
+    /// Determine game results and adjust balances
+    /// </summary>
+    /// <param name="result"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     private void EndRound(GameResultEnum result)
     {
         RoundOver = true;
@@ -147,6 +165,10 @@ public class BlackjackGame
         Database.InsertGameData(UserId, -1, CurrentBet, GameType, result, balanceChange);
     }
 
+    /// <summary>
+    /// Getter for current game state
+    /// </summary>
+    /// <returns>game state snapshot</returns>
     public BlackjackState GetState()
     {
         return new BlackjackState

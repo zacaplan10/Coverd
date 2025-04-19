@@ -24,7 +24,7 @@ public class TransactionHandler : ITransactionHandler
 
     public bool UpdateTransaction(int userId, long transactionId, TransactionFailureReasonEnum? failureReason = null)
     {
-        return Database.UpdateTransaction(userId, transactionId, TransactionFailureReasonEnum.IncorrectCardInformation);
+        return Database.UpdateTransaction(userId, transactionId, failureReason);
     }
     
     

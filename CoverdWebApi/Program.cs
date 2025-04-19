@@ -25,7 +25,6 @@ namespace CoverdWebApi
                     });
                     services.AddControllers();
                     services.AddSingleton<IDatabase, Database>();
-                    //services.AddSingleton<ITransactionHandler, TransactionHandler.TransactionHandler>();
                 });
             
             builder.ConfigureWebHostDefaults(webBuilder =>

@@ -1,6 +1,6 @@
 ﻿using Coverd.Common.Enums;
 
-namespace ThreadPoolWebApi.Models
+namespace CoverdWebApi.Models
 {
     public class TransactionModel
     {

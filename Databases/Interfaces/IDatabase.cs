@@ -19,10 +19,22 @@ public interface IDatabase
     void CreateUser(string firstName, string lastName, string email, string password, string passwordSalt, string phoneNumber, 
         string address, decimal startingBalance = 0);
 
-    void CancelUser(int userId);
-
+    /// <summary>
+    /// Get user from database or create dummy row if doesn't exist
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     UserRecord GetOrCreateUser(int userId);
 
+    /// <summary>
+    /// Deposit USD into an account for user
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="transactionId"></param>
+    /// <param name="transactionAmount"></param>
+    /// <param name="transactionDateTimeUtc"></param>
+    /// <param name="merchantName"></param>
+    /// <param name="creditCardNumber"></param>
     bool AddCreditCardTransaction(int userId, long transactionId, decimal transactionAmount, DateTime transactionDateTimeUtc,
         string merchantName, string creditCardNumber);
 
@@ -32,7 +44,7 @@ public interface IDatabase
     /// <param name="userId"></param>
     /// <param name="transactionId"></param>
     /// <param name="transactionFailureReasonEnum"></param>
-    bool UpdateTransaction(int userId, long transactionId, TransactionFailureReasonEnum transactionFailureReasonEnum);
+    bool UpdateTransaction(int userId, long transactionId, TransactionFailureReasonEnum? transactionFailureReasonEnum);
 
     /// <summary>
     /// Record a game played for a user
