@@ -1,0 +1,20 @@
+@TransactionProcessorWebApi_HostAddress = http://localhost:5187
+
+### Start a Game
+POST {{TransactionProcessorWebApi_HostAddress}}/api/blackjack/start?userId=1&bet=100
+Content-Type: application/json
+
+### Hit the Player
+POST {{TransactionProcessorWebApi_HostAddress}}/api/blackjack/hit?userId=1
+Content-Type: application/json
+
+### Stand the Player
+POST {{TransactionProcessorWebApi_HostAddress}}/api/blackjack/stand?userId=1
+Content-Type: application/json
+
+### Get Game State
+GET {{TransactionProcessorWebApi_HostAddress}}/api/blackjack/state?userId=1
+
+### Get Game ping
+GET {{TransactionProcessorWebApi_HostAddress}}/api/ping
+
