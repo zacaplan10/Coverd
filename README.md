@@ -11,3 +11,5 @@ This is a full-stack Blackjack game where users can play against a virtual deale
 
 * React (JavaScript)
 * Basic HTML/CSS for UI
+
+Please see CoverdDesign.jpg for the ideal system design for a project like this plus and overview of the game engine logic
